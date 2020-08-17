@@ -1,0 +1,37 @@
+.name-category {
+    padding-top: 20px;
+}
+
+
+.gap{
+    margin-top: 2rem;
+}
+
+#submit-details {
+    position: absolute;
+    bottom: 2px;
+}
+
+#info-block {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+
+.hide-button {
+    visibility: hidden;
+}
+
+@media screen and (max-width: 576px) {
+    .hide-button {
+        visibility: visible;
+    }
+    #upper-button {
+        visibility: hidden;
+    }
+}
+
+#screenshot {
+    height: 400px;
+
+}

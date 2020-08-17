@@ -1,0 +1,69 @@
+*{
+    padding: 0%;
+    margin: 0;
+}
+
+
+.container-fluid{
+    width: 100%;
+    height: 100vh;
+    background-image: url('Images/payment_bg.jpg');
+    /* background-color: #46aedf; */
+}
+
+.succ h1{
+    font-size: 55px;
+    font-weight: bold;
+    color: #ffffff;
+   
+}
+.succ span{
+    font-size: 130px;
+    font-weight: 100;                
+}
+
+td{
+    font-weight: bold;
+    font-size: 15px;
+    color: white;
+    font-family: 'Merriweather Sans', sans-serif;
+}
+
+@media (max-width:1000px){
+    .succ{
+     text-align: left;  
+     margin-top: 8%;
+    }
+    .succ h1{
+        text-align: center;
+    }
+    .succ span{
+     display: none;
+    }
+    .table{
+        margin-left: 14%;
+    }
+ }
+
+ 
+ @media(min-width:980px), (max-width: 1300px){
+    .succ{
+        margin-top: 18%;
+       }
+    
+
+       .data{
+        margin-top: 14%;
+        padding:0 7%;
+       }
+       .data h3{
+           margin-bottom: 5%;
+       }
+    }
+.btn{
+    margin-bottom: 4%;
+}
+
+.sec{
+    text-align: right;
+}

@@ -1,0 +1,15 @@
+.sans {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.center {
+    text-align: center;
+}
+
+#jumb {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.spacing {
+    padding-top: 2rem;
+}

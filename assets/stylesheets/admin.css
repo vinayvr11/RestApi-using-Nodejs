@@ -1,0 +1,53 @@
+.sidebar {
+    height: 100%;
+    width: 18%;
+    position: absolute;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.admin-block{
+    width: 86%;
+    height: 100%;
+    margin-left: 14%;
+    padding-top: 30px;
+    padding-left: 10%;
+    padding-bottom: 8px;
+    overflow: scroll;
+    background: #ffffff;
+}
+
+.row{
+    width: 90%;
+    height: 20%;
+    background: #ffffff;
+    border-bottom:  solid #cfe5cf;
+    border-left:  solid #cfe5cf;
+    border-right:  solid #cfe5cf;
+    border-width: thin;
+}
+
+.right-side {
+    position: absolute;
+    left: 52%;
+
+}
+
+.updateForm {
+    margin-top: 5%;
+}
+
+.admin {
+    color: #111!important;
+    line-height: 15px!important;
+    font-size: 16px!important;
+    font-weight: 700!important;
+    word-break: break-word;
+}
+.request-filter {
+    cursor: pointer;
+}
+
+.margin {
+    padding-left: 20px;
+}

@@ -224,7 +224,7 @@ exports.createPlan = (req, res) => {
 }
 
 exports.getPlans = async (req, res) => {
-    let getAll = await plans.find({});
+    let getAll = await plans.find({planName: req.params.category});
     await res.json({
         'message': 'successfully fetched all your data',
         plans: getAll

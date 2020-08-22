@@ -7,7 +7,7 @@ const Schema = new mongoose.Schema({
     name: String,
     phone: String,
     password: String,
-    expire_at: {type: Date, default: Date.now, expires: 600000},
+    expire_at: {type: Date},
     affiliateId: String,
     referralCode: String,
     shareUrl:String

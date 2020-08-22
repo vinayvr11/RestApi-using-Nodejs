@@ -24,6 +24,7 @@ exports.ourBot = (req, res) => {
     res.render('chatbot');
 }
 exports.getUserBot = (req, res) => {
+    console.log(req.query.Cid, req.query.Pid);
     res.render('userBot', {cid:req.query.Cid,
                         pid: req.query.Pid});
 }

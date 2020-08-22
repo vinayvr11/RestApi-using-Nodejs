@@ -7,113 +7,59 @@ let botCreds = require('../DB/userCredDb');
 let userData = require('../DB/SignupDb');
 
 exports.integrate = async (req, res, next) => {
-    console.log('Your integration request', req.body.project_id, req.body.company_id, req.body.name);
-    let bots = await botInfo.findOne({company_id: req.body.company_id});
-    let chats = await chatData.findOne({company_id: req.body.company_id});
-    let getBotProjectId = undefined;
-    let length = bots.allBots.length;
-    let i = 0;
-    console.log('Your whatsapp number', req.body.number);
-    if (req.body.platform === 'Whatsapp' && req.body.number === undefined) {
-        return res.json({
-            error: 'Please provide your Whatsapp number'
-        });
-    }
-    if (req.body.name != null && req.body.platform !== undefined && req.body.category !== undefined) {
-        console.log('Enter into state', req.body.name, req.body.platform, req.body.category);
-        for (i = 0; i < length; i++) {
-            if (bots.allBots[i].projectId === req.body.project_id && bots.allBots[i].status === 'not active') {
-                let chatLength = chats.botChats.length;
-                if (req.body.platform === 'Website') {
-                    getBotProjectId = bots.allBots[i].projectId;
-                    console.log('Bot project id',getBotProjectId);
-                }
-                for (let j = 0; j < chatLength; j++) {
-                    if (bots.allBots[i].projectId === chats.botChats[j].projectId) {
-                        chats.botChats[j].botCategory = req.body.category;
-                        chats.botChats[j].botPlatfom = req.body.platform;
-                        chats.botChats[j].botName = req.body.name;
-                        chats.save()
-                            .then(result => {
-                                console.log('Chat data updated');
-                            }).catch(err => {
-                            console.log('error in updating chat data');
-                        })
-                    }
-                }
-                bots.allBots[i].status = 'active';
-                bots.allBots[i].botName = req.body.name;
-                bots.allBots[i].botPlatform = req.body.platform;
-                bots.allBots[i].botCategory = req.body.category;
-                if (req.body.platform === 'Whatsapp' && req.body.number !== undefined) {
-                    let integrateData = {
-                        company_id: req.body.company_id,
-                        botsName: req.body.name,
-                        botsCategory: req.body.category,
-                        botsPlatform: req.body.platform,
-                        botsPID: bots.allBots[i].projectId,
-                        packPrice: bots.price,
-                        description: 'null',
-                        dateOfBuy: 'null',
-                        whatsAppNumber: req.body.number,
-                        status: 'integration'
-                    };
-                    let saveAdmin = new admin(integrateData);
-                    await saveAdmin.save()
-                        .then(success => {
-                            console.log('Request has been sent to admin data');
-                        }).catch(err => {
-                        console.log('Error occurs in sending request to admin');
-                    });
-                }
-                await bots.save().then(result => {
-                    console.log('Integrate data is saved successfully');
-                }).catch(err => {
-                    console.log('Error in saving integration data');
-                });
-                break;
-            }
-        }
+  // console.log('User data', req.body.company_id, req.body.name, req.body.number, req.body.category, req.body.platform, req.body.project_id);
 
-        let afterSaveBots = await botInfo.findOne({company_id: req.body.company_id});
-        //console.log('afterSaveData',afterSaveBots);
-        let len = afterSaveBots.allBots.length;
-        let requestBot = undefined;
-        for (let i=0;i<len;i++) {
-            if (afterSaveBots.allBots[i].projectId == getBotProjectId) {
-                requestBot = afterSaveBots.allBots[i];
-                break;
-            }
-        }
-        if (i === length) {
-            return res.json({
-                'message': 'you have trained all of your bots'
-            });
-        } else {
-            if (getBotProjectId) {
-                console.log('enter into bot project id', requestBot);
-                return res.json({
-                    'message': 'Your request have been sent to the admins',
-                    'requestBot': requestBot
-                });
-            } else {
-                console.log('enter into else condition');
-                return res.json({
-                    'message': 'Your request have been sent to the admins',
-                    'requestBot': null
-                });
-            }
-        }
-    } else {
+   botInfo.findOne({company_id: req.body.company_id}, async (err, data) => {
+       if (err) {
+        console.log('err', err);
         return res.json({
-            'message': 'Please fill all your information'
+            error: 'Some error occurs in integration'
         })
-    }
+       } else {
+           if (!data) {
+            return res.json({
+                error: 'No user found of this request'
+            })
+           } else {
+               for (let i=0; i<data.allBots.length; i++) {
 
+                if (data.allBots[i].projectId == req.body.project_id) {
+                    console.log('ID matched', data.allBots[i])
+                    if (data.allBots[i].status == 'active') {
+                        return res.json({
+                            error: 'You have already trained your bot'
+                        })
+                    } 
 
-    // console.log(req.body.category);
+                    if (req.body.phone) {
+                        data.allBots[i].whatsAppNumber
+                    }
 
-    // res.redirect('/chatbots');
+                    data.allBots[i].botName = req.body.name;
+                    data.allBots[i].botCategory = req.body.category;
+                    data.allBots[i].botPlatform = req.body.platform;
+                    data.allBots[i].status = 'active';
+                    data.allBots[i].trainingStatus = 'pending';
+                
+                }
+
+               }
+           }
+           data.save()
+           .then( success => {
+               return res.json({
+                   message: 'Your request has been sent to the admins your bot will train in 2 days',
+                   bots:data.allBots
+               })
+           })
+           .catch(err => {
+               return res.json({
+                   error: 'Please fill out correct information'
+               })
+           }) 
+       }
+   })
+
 };
 
 

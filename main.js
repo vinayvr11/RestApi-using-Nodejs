@@ -202,30 +202,11 @@ app.post('/login', validator.check('email').isEmail(), (req, res, next) => {
         User.findOne({email: req.body.email}, function (err, user) {
             if (!user) {
                 console.log("User not registered");
-                
-                        bcrypt.compare(req.body.password, affiliateUser.password, (err, isMatch) => {
-                            if (err) throw err;
-                            console.log(isMatch);
-                            if (isMatch) {
-                                console.log('Password matched');
-                                const token = jwt.sign({email: affiliateUser.email, userId: affiliateUser._id}, 'secret',
-                                    {expiresIn: "1h"});
-                                res.status(200).json({
-                                    'message': 'success login',
-                                    "token": token,
-                                    'userData': affiliateUser,
-                                    "type": 'affiliate'
-                                })
-                            } else {
-                                console.log("Password doesn't matched");
-                                res.json({
-                                    error: 'Affiliate Wrong password'
-                                })
-                            }
-                        });
-                  
-
+                res.json({
+                    error: 'User not registered'
+                })
             } else {
+                
                 //Match Password
 
                 console.log(req.body.password);
@@ -249,7 +230,7 @@ app.post('/login', validator.check('email').isEmail(), (req, res, next) => {
                         })
                     }
                 });
-            }
+        }
         });
     }
 });
@@ -396,7 +377,7 @@ app.post('/dashboard/:requested_bot', dash.dashboard);
 //app.use('/history', ensureAuthenticated, require('./routes/historyRoute.js'))
 
 const history = require('./routes/historyRoute');
-app.post('/history/:requested_bot', ensureAuthenticated, history.his);
+app.post('/history/:requested_bot', history.his);
 /**
  * @swagger
  *
@@ -441,12 +422,12 @@ app.get('/botData/:token', myBot.botsTrainedInfo);
 app.get('/deactivate', integrate.deactivate);
 app.post('/deactivateUser', integrate.deactivateUser);
 
-app.post('/integrateBot', ensureAuthenticated,integrate.integrate);
+app.post('/integrateBot',integrate.integrate);
 app.post('/trainBot', ensureAuthenticated,integrate.train);
 app.post('/updateProfile', ensureAuthenticated, update.update);
 app.post('/forgot-pass', passwordAuthOps.forgotPass);
 app.post('/reset/:token', passwordAuthOps.reset);
-//app.post('/ourBotChat', reply.reply);
+
 app.get('/bot', reply.renderUserBot);
 app.get('/ourBotChat', reply.renderOurBot);
 app.post('/support', mail.mail);
@@ -456,7 +437,7 @@ app.post('/contact', contactMail.contact);
 
 //Payment handling routes
 app.post('/createPlan', payment.createPlan);
-app.get('/getPlan', payment.getPlans);
+app.get('/getPlan/:category', payment.getPlans);
 app.post('/createPayment', payment.createPayment);
 app.post('/paymentStatus', payment.paymentStatus);
 app.post('/paymentWebhook', payment.paymentWebhook);

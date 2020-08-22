@@ -282,7 +282,7 @@ exports.buyChatBot = (req, res) => {
         UserData.findOne({company_id: company_id}, function (err, user) {
             console.log("User buying chatbot", quantity);
             if (user.isBuy) {
-                res.json({
+                return res.json({
                     'error': 'You have already buy our bots'
                 });
             } else {

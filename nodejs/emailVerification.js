@@ -60,7 +60,8 @@ function contactAdmin(email, token, res) {
     smtpTransport.sendMail(mailoption, function (err) {
         if (err) throw err;
         return res.json({
-            'message': 'Your mail has been sent'
+            message: 'Your mail has been sent',
+            error:''
         })
     });
 }
@@ -91,13 +92,13 @@ exports.emailVerify = (req, res) => {
                     signUpSave.save()
                         .then(result => {
                             console.log('Email verification done');
-                            res.redirect('http://localhost:8080/login/?type='+ req.query.type);
-                        })
+                            res.redirect('http://localhost:4200/auth/signin')})
                         .catch(err => {
                             console.log('Error in verifying the email token', err);
                         })
                 
             }));
         }
+        user.remove();
     })
 }

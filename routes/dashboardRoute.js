@@ -12,7 +12,7 @@ months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct",
 
 // to make console.log the python way
 function print(toPrint) {
-    console.log(toPrint);
+   // console.log(toPrint);
 }
 
 
@@ -26,11 +26,9 @@ function calcPastDate(past_days) {
 function msgsFreq(pastDaysElement, day) {
     var msgCounter = 0;
     var sessionCounter = 0;
-    console.log('dashboard boat session length', pastDaysElement.length);
     pastDaysElement.forEach(element => {
         if (new Date(element.date).getDate() == day) {
             // print(element.chats.length)
-            console.log('dashboard boat chats length', element.chats.length);
             msgCounter = msgCounter + (element.chats.length);
             sessionCounter = sessionCounter + 1;
 
@@ -56,14 +54,12 @@ function getAllBots(doc) {
 // route to show Dashboard
 exports.dashboard = async function (req, res) {
     const map = new hash();
-    console.log('user data of dashboard', req.body.company_id);
     let data = await userData.findOne({company_id: req.body.company_id});
     if (!data) {
         res.json({
             'error': 'user not found'
         })
     } else {
-        console.log(data);
         if (data.isDemo) {
             console.log('inside the demo user');
             demoUser(req, res);
@@ -80,7 +76,6 @@ exports.dashboard = async function (req, res) {
 const demoChatDb = require('../DB/demoChatDB');
 
 function demoUser(req, res) {
-    console.log('inside the demo user');
     demoChatDb.findOne({company_id: req.body.company_id}, (err, data) => {
         if (err) {
             console.log('There is some error in demoChatDb at dashboard', err);
@@ -123,14 +118,11 @@ function buyUser(req, res) {
                 error: 'user not exist'
             })
         } else {
-            console.log('Your data', data)
             var allBots = getAllBots(data);
 
 
             if (req.params.requested_bot == undefined) {
-                console.log("parameter undefined");
                 if (!req.params.requested_bot) {
-                    console.log("no req bot");
                     res.json({
                         'userData': {
                             'name': data.name,
@@ -150,7 +142,6 @@ function buyUser(req, res) {
                     })
                 } else {
                     let docChatLength = data.botChats.length;
-                    console.log("DocChatssLength", docChatLength);
                     //let req_bot = allBots[0];
                     let req_bot = req.params.requested_bot;
                     data.botChats.forEach(element => {
@@ -179,7 +170,6 @@ function buyUser(req, res) {
 
 function dashboardData(res, allBots, element, data) {
     let length = element.sessionChats.length;
-    console.log('your element', element.sessionChats);
     var total_sessions = [];
     var msgsfreqData = [];
     var sessionfreqData = [];
@@ -210,8 +200,8 @@ function dashboardData(res, allBots, element, data) {
         let chats = mainBotElement.sessionChats;
 
 
-        console.log("length: ", length);
 
+        
 
         for (let i = 0; i < length; i++) {
             let len = chats[i].chats.length;
@@ -245,9 +235,9 @@ function dashboardData(res, allBots, element, data) {
        // let dictIntent = {};
         let mainSortLength = sorted.length;
         let sortLength = Math.abs(mainSortLength - 5);
-        console.log("your chats", sorted[0].name, sorted[0].value);
+        console.log("your chats", sorted[0].name.split(' ')[0], sorted[0].value);
         for (let i = mainSortLength - 1; i >= sortLength; i--) {
-            dictIntent[sorted[i].name.split('.')[2]] = sorted[i].value;
+            dictIntent[sorted[i].name.split(' ')[0]] = sorted[i].value;
         }
         //console.log('Your intents',intents);
         //intents.push({'buy': '10'});
@@ -263,11 +253,11 @@ function dashboardData(res, allBots, element, data) {
         // console.log("your chats", sorted[0].name, sorted[0].value);
 
         for (let i = mainSortLengths - 1; i >= sortLengths; i--) {
-            dictIntent[sorted[i].name.split('.')[2]] = sorted[i].value;
+            dictIntent[sorted[i].name.split(' ')[0]] = sorted[i].value;
         }
 
+        console.log('Your intents', intents);
 
-    console.log('intents', intent);
         for (var days = 9; days >= 0; days--) {
             var last = calcPastDate(days);
             var date = last.getDate();
@@ -281,13 +271,11 @@ function dashboardData(res, allBots, element, data) {
         }
 
         for (const [key, value] of Object.entries(dictIntent)) {
-            console.log(`${key}: ${value}`);
             let d = {};
             d[key] = value;
             intent.push(d);
         }
 
-        console.log(intent);
         res.json({
             'userData': {
                 'name': data.botName,
@@ -296,7 +284,7 @@ function dashboardData(res, allBots, element, data) {
                 'sessionChartData': sessionfreqData,
                 'botNames': allBots,
                 'user': data,
-                'intents': intent
+                'intents': intents
             }
         });
     }

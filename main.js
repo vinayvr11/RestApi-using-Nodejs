@@ -362,7 +362,7 @@ app.post('/profile', ensureAuthenticated, async function (req, res) {
  *          description: success
  */
 const dash = require('./routes/dashboardRoute.js');
-app.post('/dashboard/:requested_bot', dash.dashboard);
+app.post('/dashboard/:requested_bot', ensureAuthenticated, dash.dashboard);
 
 /**
  * @swagger
@@ -377,7 +377,7 @@ app.post('/dashboard/:requested_bot', dash.dashboard);
 //app.use('/history', ensureAuthenticated, require('./routes/historyRoute.js'))
 
 const history = require('./routes/historyRoute');
-app.post('/history/:requested_bot', history.his);
+app.post('/history/:requested_bot',  ensureAuthenticated,history.his);
 /**
  * @swagger
  *
@@ -414,7 +414,7 @@ const emailVerification = require('./nodejs/emailVerification');
 
 
 
-app.post('/myChatBot', myBot.myBot);
+app.post('/myChatBot',ensureAuthenticated, myBot.myBot);
 
 
 app.get('/botData/:token', myBot.botsTrainedInfo);

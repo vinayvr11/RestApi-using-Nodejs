@@ -59,6 +59,7 @@ historyDemoUser = (req, res) => {
 }
 
 historyBuyUser = (req, res) => {
+    
     ClientChatDb.findOne({company_id: req.body.company_id}, function (err, data) {
         //console.log('data', data.botChats[1].sessionChats);
         if (!data) {

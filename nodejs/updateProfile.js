@@ -25,9 +25,7 @@ exports.update =   async function updateProf(req, res) {
     if (req.body.address) {
         update.push({address: req.body.address});
     }
-    //if(req.body.password !== undefined){
-    //     passwordAuthOps.forgotPassword(req, res);
-    // }
+  
     var i = 0;
     for (i; i < update.length; i++) {
         await userData.findOneAndUpdate(find, update[i], (err, user) => {
@@ -44,7 +42,7 @@ exports.update =   async function updateProf(req, res) {
     const data = await userData.findOne(find);
     await res.json({
         'message': 'Profile has been updated',
-        userData: data
+        'userData': data
     });
 }
 

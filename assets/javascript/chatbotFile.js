@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     link.setAttribute('href', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css');
     let link1 = document.createElement('link');
     link1.setAttribute('rel', 'stylesheet');
-    link1.setAttribute('href','https://botscuadapi.herokuapp.com/assets/stylesheets/index.css');
+    link1.setAttribute('href','http://localhost:3000/assets/stylesheets/index.css');
 
     let script1 = document.createElement('SCRIPT');
     let script2 = document.createElement('SCRIPT');

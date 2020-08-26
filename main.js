@@ -215,8 +215,7 @@ app.post('/login', validator.check('email').isEmail(), (req, res, next) => {
                     console.log(isMatch);
                     if (isMatch) {
                         console.log('Password matched');
-                        const token = jwt.sign({email: user.email, userId: user._id}, 'secret',
-                            {expiresIn: "1h"});
+                        const token = jwt.sign({email: user.email, userId: user._id}, 'secret');
                         res.status(200).json({
                             'message': 'success login',
                              "token": token,

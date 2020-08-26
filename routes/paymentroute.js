@@ -41,9 +41,11 @@ exports.paymentStatus = async function (req, res, next) {
     const digest = sha.digest('hex');
     if (digest === req.body.signature) {
         console.log('data matched signature');
+        let user = await userData.findOne({company_id: req.body.company_id});
         await res.json({
             'message': 'payment success and verified',
-            'error': ''
+            'error': '',
+            'userData': user
         })
     } else {
         await res.json({

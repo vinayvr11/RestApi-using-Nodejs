@@ -48,7 +48,7 @@ function contactAdmin(email, token, res) {
         service: 'Gmail',
         auth: {
             user: 'vr54640@gmail.com',
-            pass: '8439829712aA'
+            pass: 'vinayvraA@'
         }
     });
     let mailoption = {

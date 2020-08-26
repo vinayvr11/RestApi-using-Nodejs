@@ -5,6 +5,8 @@ const adminDb = require('../DB/adminDB');
 const userData = require('../DB/SignupDb');
 const botsInfo = require('../DB/intents');
 const botChats = require('../DB/chatDb');
+const demoChatDB = require('../DB/demoChatDB');
+
 router.get('/botSupport', function (req, res, next) {
     res.render('botSupportPage', {user_data: req.user});
 });
@@ -188,22 +190,54 @@ router.post('/welcomeMessage', (req, res, next)=>{
 
 exports.myBot = function (req, res, next) {
 
-    botsInfo.findOne({company_id: req.body.company_id}, (err, user) => {
+    userData.findOne({company_id: req.body.company_id}, (err, user) =>{
         if (!user) {
-            res.json(
+            return res.json(
                 {
-                    'message': 'user not found'
+                    'error': 'user not found'
                 }
             );
         } else {
-            res.json(
-                {
-                    'message': 'user found',
-                    'botsData': user
-                }
-            );
+            if (user.isDemo) {
+                demoChatDB.findOne({company_id: req.body.company_id}, (err, demoBot) => {
+                    if (!demoBot) {
+                        return res.json(
+                            {
+                                'error': 'bot not found'
+                            }
+                        );
+                    } else {
+                        demoBot.sessionChats = undefined;
+                        return res.json(
+                            {
+                                'message': 'Your demo bot',
+                                'demoBot': demoBot
+                            }
+                        );
+                    }
+                })
+            } else if (user.isBuy) {
+                botsInfo.findOne({company_id: req.body.company_id}, (err, buyBot) => {
+                    if (!buyBot) {
+                        res.json(
+                            {
+                                'error': 'bot not found'
+                            }
+                        );
+                    } else {
+                        return res.json(
+                            {
+                                'message': 'bot found',
+                                'botsData': buyBot
+                            }
+                        );
+                    }
+                });
+            }
         }
-    });
+    })
+
+
 
 }
 

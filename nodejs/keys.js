@@ -5,5 +5,5 @@ module.exports = {
     GoogleClientSecrets:'lQGu_zJhF5ejKpfNb5YJCJh8',
     GooglePlusAPIKEY:'AIzaSyBf4QQHdPcZRyPdSM8MGhgzXd2OasqYuEk',
     server: "https://botscuadapi.herokuapp.com",
-    pass: "7895933824aA"
+    pass: "vinayvraA@"
 };

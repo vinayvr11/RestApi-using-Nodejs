@@ -54,6 +54,7 @@ function getAllBots(doc) {
 // route to show Dashboard
 exports.dashboard = async function (req, res) {
     const map = new hash();
+    console.log('Your bot id ', req.params.requested_bot);
     let data = await userData.findOne({company_id: req.body.company_id});
     if (!data) {
         res.json({
@@ -275,6 +276,8 @@ function dashboardData(res, allBots, element, data) {
             d[key] = value;
             intent.push(d);
         }
+
+        console.log('Your dashboard charts data', sessionfreqData);
 
         res.json({
             'userData': {

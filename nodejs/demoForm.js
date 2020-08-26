@@ -14,21 +14,21 @@ exports.buyDemo = (req, res) => {
     console.log("Your email-id: ", company_id);
     const result = UserData.findOne(query, (err, user) => {
         if (!user) {
-            res.json({
-                'message': "No user exist of this id"
+            return res.json({
+                'error': "No user exist of this id"
             })
         } else {
 
             if (user.isBuy) {
                 //console.log('You have buy our demo');
-                res.json({
+                return res.json({
                     'error': 'You have already buy our bots'
                 });
                 // return false;
             }
             if (user.isDemo) {
                 console.log('You have already taken our demo');
-                res.json({
+                return res.json({
                     'error': 'You have already buy our demo'
                 })
                 //return false;
@@ -50,6 +50,9 @@ exports.buyDemo = (req, res) => {
                     console.log('Demo date have been saved');
                 }).catch(err => {
                     console.log('There is some error in saving the demo date');
+                   return res.json({
+                        'error': 'You have successfully buy our demo'
+                    })
                 })
             }
         }
@@ -62,16 +65,16 @@ demoChat = async (req, res) => {
     console.log();
     await UserData.findOne({company_id: req.body.company_id}, function (err, user) {
         if (!user) {
-            res.json({
-                'message': 'You have submitted wrong credentials'
+            return res.json({
+                'error': 'You have submitted wrong credentials'
             })
         } else {
             userCredData.findOneAndUpdate({isAssigned: false}, {isAssigned: true}, function (err, doc) {
                 if (err) throw err;
                 if (doc === null) {
                     console.log('Data is not found');
-                    res.json({
-                        'message': 'There is some issue in our servers'
+                    return res.json({
+                        'error': 'There is some issue in our servers'
                     });
                 } else {
                     console.log('User submitted domain', doc.project_id);
@@ -92,11 +95,15 @@ demoChat = async (req, res) => {
                         console.log('Your demochats are saved');
                         //mail.sendMail(user.email, 'Successfully accquired our demo', 'You have accquire our 10 days demo.');
                         mail.support(req, res);
-                        res.json({
-                            'message': 'You have successfully buy our demo'
+                        return res.json({
+                            'message': 'You have successfully buy our demo',
+                            'userData': user
                         })
                     }).catch(err => {
                         console.log('You got some error in saving the demo chats db', err);
+                        return res.json({
+                            'error': 'You have successfully buy our demo'
+                        })
                     });
                 }
             });

@@ -5,62 +5,119 @@ let admin = require('../DB/adminDB');
 let chatData = require('../DB/chatDb');
 let botCreds = require('../DB/userCredDb');
 let userData = require('../DB/SignupDb');
+let demoChatDB = require('../DB/demoChatDB');
 
 exports.integrate = async (req, res, next) => {
-  // console.log('User data', req.body.company_id, req.body.name, req.body.number, req.body.category, req.body.platform, req.body.project_id);
-
-   botInfo.findOne({company_id: req.body.company_id}, async (err, data) => {
-       if (err) {
-        console.log('err', err);
-        return res.json({
-            error: 'Some error occurs in integration'
-        })
-       } else {
-           if (!data) {
+   console.log('User data', req.body.company_id, req.body.name, req.body.number, req.body.category, req.body.platform, req.body.project_id);
+    await userData.findOne({company_id: req.body.company_id}, (err, user) => {
+        if (!user) {
             return res.json({
-                error: 'No user found of this request'
+                'error': 'Not authenticated'
             })
-           } else {
-               for (let i=0; i<data.allBots.length; i++) {
+        } else {
+            if (user.isDemo) {
+                console.log('enter inside demo')
+                demoBotIntegrate(req, res);
+            } else if (user.isBuy) {
+                console.log('enter inside buy')
 
-                if (data.allBots[i].projectId == req.body.project_id) {
-                    console.log('ID matched', data.allBots[i])
-                    if (data.allBots[i].status == 'active') {
-                        return res.json({
-                            error: 'You have already trained your bot'
-                        })
-                    } 
-
-                    if (req.body.phone) {
-                        data.allBots[i].whatsAppNumber
-                    }
-
-                    data.allBots[i].botName = req.body.name;
-                    data.allBots[i].botCategory = req.body.category;
-                    data.allBots[i].botPlatform = req.body.platform;
-                    data.allBots[i].status = 'active';
-                    data.allBots[i].trainingStatus = 'pending';
-                
-                }
-
-               }
-           }
-           data.save()
-           .then( success => {
-               return res.json({
-                   message: 'Your request has been sent to the admins your bot will train in 2 days',
-                   bots:data.allBots
-               })
-           })
-           .catch(err => {
-               return res.json({
-                   error: 'Please fill out correct information'
-               })
-           }) 
-       }
-   })
+                buyBotIntegrate(req, res);
+            }
+        }
+    });
+    
 
 };
+
+
+let demoBotIntegrate = (req, res) => {
+    demoChatDB.findOne({company_id: req.body.company_id}, (err, bot) => {
+        console.log('enter inside demo')
+
+        if (!bot) {
+            return res.json({
+                'error': 'Some error occurs in integration'
+            })
+        } else {
+            console.log('enter inside demo')
+
+            bot.botChats[0].botCategory = req.body.category;
+            bot.botChats[0].botName = req.body.name;
+            bot.botChats[0].botPlatform = req.body.platform;
+
+            bot.save()
+            .then(success => {
+                console.log('enter inside demo')
+
+                return res.json({
+                    'message': 'Your request has been sent to the admins they will contact you in 2 hours.',
+                    'demo': true,
+                    'bots': bot
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
+    })
+}
+
+
+
+let buyBotIntegrate = (req, res) => {
+    botInfo.findOne({company_id: req.body.company_id}, async (err, data) => {
+        if (err) {
+         console.log('err', err);
+         return res.json({
+             error: 'Some error occurs in integration'
+         })
+        } else {
+            if (!data) {
+             return res.json({
+                 error: 'No user found of this request'
+             })
+            } else {
+                for (let i=0; i<data.allBots.length; i++) {
+ 
+                 if (data.allBots[i].projectId == req.body.project_id) {
+                     console.log('ID matched', data.allBots[i])
+                     if (data.allBots[i].status == 'active') {
+                         return res.json({
+                             error: 'You have already trained your bot'
+                         })
+                     } 
+ 
+                     if (req.body.phone) {
+                         data.allBots[i].whatsAppNumber
+                     }
+ 
+                     data.allBots[i].botName = req.body.name;
+                     data.allBots[i].botCategory = req.body.category;
+                     data.allBots[i].botPlatform = req.body.platform;
+                     data.allBots[i].status = 'active';
+                     data.allBots[i].trainingStatus = 'pending';
+                 
+                 }
+ 
+                }
+            }
+            data.save()
+            .then( success => {
+                return res.json({
+                    'message': 'Your request has been sent to the admins your bot will train in 2 days',
+                    'bots':data.allBots,
+                    'buy': true
+                })
+            })
+            .catch(err => {
+                return res.json({
+                    'error': 'Please fill out correct information'
+                })
+            }) 
+        }
+    })
+}
+
 
 
 router.get('/data', async (req, res, next) => {

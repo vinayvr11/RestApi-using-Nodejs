@@ -73,6 +73,7 @@ exports.emailVerify = (req, res) => {
         if (!user) {
             console.log('Your token has been expired now');
         } else {
+            console.log('user ', user);
             let company_id = crypto.randomBytes(5).toString('hex');
             let email = user.email;
             bcrypt.genSalt(10, (err, salt) => bcrypt.hash(user.password, salt, (err, hash) => {
@@ -92,6 +93,7 @@ exports.emailVerify = (req, res) => {
                     signUpSave.save()
                         .then(result => {
                             console.log('Email verification done');
+                            user.remove();
                             res.redirect('https://vinayvr11.github.io/aimemory/auth/signin')})
                         .catch(err => {
                             console.log('Error in verifying the email token', err);
@@ -99,6 +101,6 @@ exports.emailVerify = (req, res) => {
                 
             }));
         }
-        user.remove();
+        
     })
 }

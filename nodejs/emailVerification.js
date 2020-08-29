@@ -92,7 +92,7 @@ exports.emailVerify = (req, res) => {
                     signUpSave.save()
                         .then(result => {
                             console.log('Email verification done');
-                            res.redirect('http://localhost:4200/auth/signin')})
+                            res.redirect('https://vinayvr11.github.io/aimemory/auth/signin')})
                         .catch(err => {
                             console.log('Error in verifying the email token', err);
                         })

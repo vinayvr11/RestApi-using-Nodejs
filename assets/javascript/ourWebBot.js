@@ -1,5 +1,5 @@
 console.log("our WebBot.js called");
-let socket = io('http://localhost:3000');
+let socket = io('https://lit-lowlands-81249.herokuapp.com/');
 
 let welcome = {
     answer: {

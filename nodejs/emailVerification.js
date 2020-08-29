@@ -55,7 +55,7 @@ function contactAdmin(email, token, res) {
         to: email,
         from: 'vr54640@gmail.com',
         subject: 'verification mail',
-        text: "Verification email -" + "\n" + "http://localhost:3000/email-verify/" + token
+        text: "Verification email -" + "\n" + "https://dry-river-91831.herokuapp.com/email-verify/" + token
     };
     smtpTransport.sendMail(mailoption, function (err) {
         if (err) throw err;

@@ -1,8 +1,8 @@
 console.log("our WebBot.js called");
-let socket = io('https://lit-lowlands-81249.herokuapp.com/');
+let socket = io('https://dry-river-91831.herokuapp.com/');
 
 let welcome = {
-    answer: {
+    answer: { 
         fulfillmentMessages: [
             {
                 img: '../assets/images/hello_c.png'

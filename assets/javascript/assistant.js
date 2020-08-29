@@ -2,7 +2,7 @@ let socket;
 let dot_typing = document.getElementById('nextLevel');
 dot_typing.style.display = 'none';
 document.addEventListener('DOMContentLoaded', function () {
-    socket = io('https://lit-lowlands-81249.herokuapp.com/');
+    socket = io('https://dry-river-91831.herokuapp.com/');
     let company_id = $("#Cid").attr('value');
     let project_id = $("#Pid").attr('value');
     socket.emit('welcome', {company_id: company_id, project_id: project_id});

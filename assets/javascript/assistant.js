@@ -247,6 +247,7 @@ function update_cards(cards_list, type) {
             console.log("cards elements", element);
             if (count <= length) {
                 var cardlink = document.createElement('a');
+                cardlink.target = "_blank";
                 cardlink.setAttribute('class', "card-link")
                 cardlink.setAttribute('href', "#")
 

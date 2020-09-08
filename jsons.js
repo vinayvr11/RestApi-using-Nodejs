@@ -1,10 +1,20 @@
 let msg = {
     "fulfillmentMessages": [
         {
-            "msg": "hello there"
+            "msg": "Welcome to Posmin Supporting Ventures"
         },
         {
-            "img": "../assets/images/hello_c.png"
+          "msg": "Kindly choose one of the following category to get start"
+        },
+        {
+          "btns": [
+            {
+              "btn": "About posmin"
+            },
+            {
+              "btn": "Our Services"
+            }
+          ]
         }
     ]
 }

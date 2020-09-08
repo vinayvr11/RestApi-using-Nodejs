@@ -1,6 +1,39 @@
 let socket;
-let dot_typing = document.getElementById('nextLevel');
-dot_typing.style.display = 'none';
+
+
+// Typing dots are here
+let master = document.getElementById('bot');
+let dot_typing = document.createElement('div');
+dot_typing.className = 'row nextLevel';
+dot_typing.style.position = "relative";
+dot_typing.style.bottom = "1rem";
+dot_typing.style.top = "1rem";
+dot_typing.id = 'row';
+let first_div = document.createElement("div");
+first_div.className = 'col-1';
+first_div.id = 'level';
+
+let firstInnerDiv = document.createElement("div");
+firstInnerDiv.className = 'row';
+let img = document.createElement('img');
+img.setAttribute('src', '/assets/images/logo.png');
+img.className = 'rounded-circle mt-4';
+img.setAttribute('height', '30');
+img.setAttribute('width', '30');
+
+
+let secondDiv = document.createElement("div");
+secondDiv.className = 'bot-msg shadow p-3 mr-auto my-2 ml-1 text-center';
+let secondInnerDiv = document.createElement("div");
+secondInnerDiv.className = 'dot-typing mx-3';
+
+firstInnerDiv.appendChild(img);
+first_div.appendChild(firstInnerDiv);
+secondDiv.appendChild(secondInnerDiv);
+dot_typing.appendChild(first_div);
+dot_typing.appendChild(secondDiv);
+master.appendChild(dot_typing);
+
 document.addEventListener('DOMContentLoaded', function () {
     socket = io('https://dry-river-91831.herokuapp.com/');
     let company_id = $("#Cid").attr('value');
@@ -25,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let user_msg = getText.val();
             document.getElementById('myInput').value = "";
             console.log('My message', user_msg);
-            dot_typing.style.display = 'block';
+            dot_typing.style.display = 'flex';
             sendMessage("user", user_msg, companyID, projectID);
         }
     });
@@ -49,6 +82,7 @@ function getDateInfo() {
 function update_message(sender, msg) {
     var tab = document.getElementById('bot');
     var middleware = document.getElementById('middleware');
+    middleware.style.paddingBottom = "1.5rem";
 
     var newDiv = document.createElement('div');
     newDiv.setAttribute("class", "row")
@@ -61,7 +95,7 @@ function update_message(sender, msg) {
     if (sender == "user") {
         newDivInherit.className = 'user-msg justify-content-start px-2 pt-3 ml-auto my-2 ml-1';
     } else if (sender == "bot") {
-        newDivInherit.className = 'bot-msg justify-content-start px-2 pt-3 mr-auto my-2 ml-1';
+        newDivInherit.className = 'bot-msg shadow justify-content-start px-2 pt-3 mr-auto my-2 ml-1';
         dot_typing.style.display = 'none';
     }
     console.log('Your message', msg);
@@ -79,6 +113,7 @@ function update_img(img_link) {
     var tab = document.getElementById('bot');
     var newDiv = document.createElement('div');
     var middleware = document.getElementById('middleware');
+    middleware.style.paddingBottom = "1.5rem";
     newDiv.setAttribute("class", "row")
     var newDivInherit = document.createElement('div');
     newDivInherit.setAttribute("class", "img-container px-2 pt-3 mr-auto my-2 ml-1")
@@ -103,8 +138,15 @@ function update_btns(btns_list, type) {
     var tab = document.getElementById('bot');
     var newDiv = document.createElement('div');
     var middleware = document.getElementById('middleware');
+    middleware.style.paddingBottom = "1.5rem";
+
+    var firstInnerDiv = document.createElement('div');
+    var emptyImageDiv = document.createElement('div');
 
     newDiv.setAttribute("class", "row")
+    firstInnerDiv.setAttribute("class", "col-1")
+    emptyImageDiv.setAttribute("class", "")
+
     var newDivInherit = document.createElement('div');
     newDivInherit.setAttribute("class", "pt-3 mr-auto my-2 ml-1 btns-wrapper text-center")
 
@@ -115,11 +157,13 @@ function update_btns(btns_list, type) {
             let company_id = $("#Cid").attr('value');
             let project_id = $("#Pid").attr('value');
             update_message('user', this.innerText);
-            dot_typing.style.display = 'block';
+            $('.btns-wrapper').hide();
+            dot_typing.style.display = 'flex';
             sendRequest(this.innerText, company_id, project_id);
         });
         if (type === 'welcome') {
-            btn.innerText = button;
+            console.log("Button text..........", button)
+            btn.innerText = button.btn;
         } else {
             console.log('error in update buttons.........', button);
             btn.innerText = button.structValue.fields.btn.stringValue;
@@ -127,6 +171,8 @@ function update_btns(btns_list, type) {
         newDivInherit.appendChild(btn);
     });
 
+    firstInnerDiv.appendChild(emptyImageDiv);
+    newDiv.appendChild(firstInnerDiv);
     newDiv.appendChild(newDivInherit);
     middleware.appendChild(newDiv);
     dot_typing.style.display = 'none';
@@ -139,8 +185,11 @@ function update_cards(cards_list, type) {
     var tab = document.getElementById('bot');
     var newDiv = document.createElement('div');
     var middleware = document.getElementById('middleware');
+    middleware.style.paddingBottom = "1.5rem";
+
 
     newDiv.setAttribute("class", "testimonial-group mt-5 mx-0 px-0");
+    newDiv.style.paddingBottom = "4rem";
     var newDivInherit = document.createElement('div');
     newDivInherit.setAttribute("class", "slider-row row text-center flex-nowrap mx-0")
 
@@ -216,6 +265,8 @@ function update_cards(cards_list, type) {
                     cardlink.innerText = element.structValue.fields.text.stringValue;
                     cardlink.setAttribute('href', element.structValue.fields.link.stringValue);
                 }
+                tab.scrollTop = tab.scrollHeight + 1000;
+
                 cardbody.appendChild(cardlink);
             }
 
@@ -272,85 +323,148 @@ function botData(data) {
             console.log("msg:", bot_msg)
             update_message("bot", bot_msg)
         } else {
-            try {
-                let payloads = data.answer.fulfillmentMessages;
+          //  try {
+            let payloads;
+            console.log("user data")
+              if (data.answer) {
+                payloads  = data.answer.fulfillmentMessages;
+              
+                
                 // console.log(payloads[0].payload.fields.msg);
                 console.log("Logs in payloads", payloads);
-                payloads.forEach(element => {
+               // payloads.forEach(element => {
                     //console.log('Your famous text', payloads[0].payload.fields.msg);
                     if (data.type === 'welcome') {
-                        beforeWelcome(element, data.type);
+                        beforeWelcome(payloads, data.type);
                     } else {
-                        afterWelcome(element);
+                        afterWelcome(payloads);
                     }
-                });
+                }
+               // });
 
-            } catch (err) {
+          //  } catch (err) {
                 // update_message("bot", data.answerChat.response)
-                console.log('inside error called', data)
-            }
+            //    console.log('inside error called', data)
+           // }
         }
     }
 }
 
 beforeWelcome = (element, type) => {
-    console.log('welcome message called');
-    if (element.msg) {
-        let bot_msg = element.msg;
+    console.log('welcome message called', element);
+
+
+    var tab = document.getElementById('bot');
+    let length = element.length;
+    let i = 0;
+
+    let interval =  setInterval(function () {
+    if (i >= length) {
+            console.log('length is smaller found');
+            dot_typing.style.display = 'none';
+            clearInterval(interval);
+    } else { 
+    if (element[i].msg) {
+        let bot_msg = element[i].msg;
         console.log("msg:", bot_msg)
-        setTimeout( function () {
-            dot_typing.style.display = 'block';
-        }, 4000);
-        setTimeout( function () {
+    
             update_message("bot", bot_msg)
-        }, 5000);
-    } else if (element.img) {
-        console.log("img:", element.img)
-        setTimeout( function () {
-            dot_typing.style.display = 'block';
-        }, 2000);
-        setTimeout(function () {
+            i++;
 
-            update_img(element.img)
-        }, 3000);
-    } else if (element.cards) {
-        console.log("found cards", element.cards)
-        setTimeout( function () {
-            dot_typing.style.display = 'block';
-        }, 3000);
-        setTimeout(function () {
+    } else if (element[i].img) {
+        console.log("img:", element[i].img)
+       
+            dot_typing.style.display = 'flex';
+      
+            update_img(element[i].img)
+            i++;
 
-            update_cards(element.cards, type)
-        }, 6000);
-    } else if (element.btns) {
-        bot_btns = element.btns;
+    } else if (element[i].cards) {
+        console.log("found cards", element[i].cards)
+        
+            dot_typing.style.display = 'flex';
+      
+
+            update_cards(element[i].cards, type)
+            i++;
+
+    } else if (element[i].btns) {
+        bot_btns = element[i].btns;
         console.log("btns:", bot_btns)
-        setTimeout( function () {
-            dot_typing.style.display = 'block';
-        }, 6000);
-        setTimeout(function () {
-
+      
             update_btns(bot_btns, type)
-        }, 7000);
+       i++;
+    }
+    }
+}, 1500);
+}
+
+
+afterWelcome =  (element) => {
+    console.log("Messages...................+++++++++++++", element[0].length);
+    var tab = document.getElementById('bot');
+    let length = element.length;
+    let i = 0;
+
+    let interval =  setInterval(function () {
+    if (i >= length) {
+        console.log('length is smaller found');
+        dot_typing.style.display = 'none';
+        clearInterval(interval);
+    } else { 
+        console.log("Messages...................+++++++++++++", element[i]);
+
+     if (element[i].payload.fields.msg) {
+        console.log("Messages...................+++++++++++++", element[i]);
+
+        let bot_msg = element[i].payload.fields.msg.stringValue
+        console.log("msg:", bot_msg)
+        update_message("bot", bot_msg)
+        if (i !== length - 1) {
+            dot_typing.style.display = 'flex';
+            tab.scrollTop = tab.scrollHeight;
+
+        }
+        i++;
+
+    } else if (element[i].payload.fields.img) {
+        console.log("Messages...................+++++++++++++", element[i]);
+
+        //console.log("img:", element[0].payload.fields.img.stringValue)
+        update_img(element[i].payload.fields.img.stringValue)
+        if (i !== length - 1) {
+            dot_typing.style.display = 'flex';
+            tab.scrollTop = tab.scrollHeight;
+
+        }
+        i++;
+
+    } else if (element[i].payload.fields.cards) {
+        console.log("Messages...................+++++++++++++", element[i]);
+
+        //console.log("found cards", element[0].payload.fields.cards.listValue.values)
+        update_cards(element[i].payload.fields.cards.listValue.values, 'regular')
+        if (i !== length - 1) {
+            dot_typing.style.display = 'flex';
+            //tab.scrollTop = tab.scrollHeight;
+
+        }
+        i++;
+    } else if (element[i].payload.fields.btns) {
+        console.log("Messages...................+++++++++++++", element[i]);
+
+        bot_btns = element[i].payload.fields.btns.listValue.values
+        console.log("btns:", bot_btns)
+        update_btns(bot_btns, 'regular')
+        if (i !== length - 1) {
+            dot_typing.style.display = 'flex';
+            tab.scrollTop = tab.scrollHeight;
+        }
+        i++;
     }
 }
 
-afterWelcome = (element) => {
-    if (element.payload.fields.msg) {
-        let bot_msg = element.payload.fields.msg.stringValue
-        console.log("msg:", bot_msg)
-        update_message("bot", bot_msg)
-    } else if (element.payload.fields.img) {
-        console.log("img:", element.payload.fields.img.stringValue)
-        update_img(element.payload.fields.img.stringValue)
-    } else if (element.payload.fields.cards) {
-        console.log("found cards", element.payload.fields.cards.listValue.values)
-        update_cards(element.payload.fields.cards.listValue.values, 'regular')
-    } else if (element.payload.fields.btns) {
-        bot_btns = element.payload.fields.btns.listValue.values
-        console.log("btns:", bot_btns)
-        update_btns(bot_btns, 'regular')
-    }
+    }, 1500)
 }
 
 

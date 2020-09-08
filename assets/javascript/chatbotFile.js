@@ -44,17 +44,22 @@ document.addEventListener("DOMContentLoaded", function () {
   
 
   let div = document.createElement("div");
-  div.className = "row mr-2 px-0";
+  div.className = "row m-0 p-0 pr-3";
   let i = document.createElement("i");
+  let im = document.createElement("img");
+  im.setAttribute("src", "https://posmincloud.azurewebsites.net/images/thumbs/0000084_logo (1).png")
+  im.style.height = "50px";
   i.className = "fas fa-times ml-auto";
+  div.appendChild(im);
   div.appendChild(i);
+  
   container.prepend(div);
   //first container ends
 
   let newDiv = document.createElement("div");
   let button = document.createElement("button");
   button.className =
-    "round-button mr-3 mb-3 shadow justify-content-center align-items-center welcome";
+    "round-button mr-3 mb-3 shadow justify-content-center align-items-center";
   let span = document.createElement("span");
   let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.style.enableBackground = "new 0 0 500 500";

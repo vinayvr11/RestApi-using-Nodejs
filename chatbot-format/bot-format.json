@@ -1,0 +1,36 @@
+{
+    "btns": [
+      {
+        "btn": "hello"
+      },
+      {
+        "btn": "vinay"
+      }
+    ]
+  },
+
+  {
+    "img": "../assets/images/1833.jpg"
+  },
+
+  {
+    "cards": [
+      {
+        "img": "../assets/images/1833.jpg",
+        "body": "So this is your card",
+        "cardTitle": "Testing cards",
+        "cardSubTitle": "Subtitle of card",
+        "cardLinks": [
+          {
+            "link": "https://www.google.com",
+            "text": "click here"
+          },
+          {
+            "text": "click there",
+            "link": "https://www.google.com"
+          }
+        ],
+        "cardText": "Some quick example"
+      }
+    ]
+  }

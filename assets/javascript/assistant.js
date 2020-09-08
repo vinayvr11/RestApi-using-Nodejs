@@ -29,33 +29,9 @@ document.addEventListener('DOMContentLoaded', function () {
             sendMessage("user", user_msg, companyID, projectID);
         }
     });
-    //  loading();
+    
 });
 
-/*function loading(){
-    let dateInfo = getDateInfo();
-
-    let company_id = $('#Cid').attr('value');
-    let project_id = $('#Pid').attr('value');
-
-    fetch('/checkDemo', {
-       method: 'POST',
-        headers: {
-           "Content-Type":"application/json"
-        },
-        body: JSON.stringify({
-            year: dateInfo.year,
-            month: dateInfo.month,
-            date: dateInfo.date,
-            company_id:company_id,
-            project_id:project_id
-        })
-    }).then((res)=>{
-        return res.json();
-    }).then((data)=>{
-        console.log(data.answer);
-    });
-}*/
 
 function getDateInfo() {
     let today = new Date();

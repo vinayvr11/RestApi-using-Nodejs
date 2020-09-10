@@ -9,8 +9,8 @@ iframe {
     position: fixed;
     display: none;
     background-color: #fff;
-    right: 0;
-    bottom:0;
+    right: 0.6rem;
+    bottom:5rem;
     z-index: 1030;
     max-width: calc(100% - 40px);
     max-height: calc(100% - 40px);

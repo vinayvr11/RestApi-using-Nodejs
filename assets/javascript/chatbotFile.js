@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let i = document.createElement("i");
   i.style.cursor = "pointer";
   let im = document.createElement("img");
-  im.setAttribute("src", "http://localhost:3000/assets/images/768.jpg")
+  im.setAttribute("src", "https://dry-river-91831.herokuapp.com/assets/images/768.jpg")
   im.style.height = "50px";
   i.className = "fas fa-times ml-auto";
   div.appendChild(im);

@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let div = document.createElement("div");
   div.className = "row m-0 p-0 pr-3";
   let i = document.createElement("i");
+  i.style.cursor = "pointer";
   let im = document.createElement("img");
   im.setAttribute("src", "https://posmincloud.azurewebsites.net/images/thumbs/0000084_logo (1).png")
   im.style.height = "50px";
@@ -60,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let button = document.createElement("button");
   button.className =
     "round-button mr-3 mb-3 shadow justify-content-center align-items-center";
+  button.style.cursor = "pointer";
   let span = document.createElement("span");
   let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.style.enableBackground = "new 0 0 500 500";

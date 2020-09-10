@@ -1,33 +1,33 @@
 document.addEventListener("DOMContentLoaded", function () {
   let link = document.createElement("link");
   link.setAttribute("rel", "stylesheet");
-  link.setAttribute(
+  /*link.setAttribute(
     "href",
     "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-  );
+  );*/
   let link1 = document.createElement("link");
   link1.setAttribute("rel", "stylesheet");
   link1.setAttribute(
     "href",
-    "https://dry-river-91831.herokuapp.com/assets/stylesheets/index.css"
+    "https://dry-river-91831.herokuapp.com/assets/build/index.min.css"
   );
   let link2 = document.createElement("link");
   link2.setAttribute("rel", "stylesheet");
   link2.setAttribute(
     "href",
-    "https://dry-river-91831.herokuapp.com/assets/stylesheets/iframeStyles.css"
+    "https://dry-river-91831.herokuapp.com/assets/build/iframeStyles.min.css"
   );
 
   let script1 = document.createElement("SCRIPT");
   let script2 = document.createElement("SCRIPT");
-  script1.setAttribute(
+  /*script1.setAttribute(
     "src",
     "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"
   );
   script2.setAttribute(
     "src",
     "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-  );
+  );*/
 
   let head = document.getElementsByTagName("head")[0];
   head.appendChild(script1);

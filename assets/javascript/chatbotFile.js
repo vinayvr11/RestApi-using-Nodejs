@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let i = document.createElement("i");
   i.style.cursor = "pointer";
   let im = document.createElement("img");
-  im.setAttribute("src", "https://posmincloud.azurewebsites.net/images/thumbs/0000084_logo (1).png")
+  im.setAttribute("src", "http://localhost:3000/assets/images/768.jpg")
   im.style.height = "50px";
   i.className = "fas fa-times ml-auto";
   div.appendChild(im);

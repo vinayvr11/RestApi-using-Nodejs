@@ -1,16 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
   let link = document.createElement("link");
   link.setAttribute("rel", "stylesheet");
-  /*link.setAttribute(
+  link.setAttribute(
     "href",
-    "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-  );*/
+    "https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+  );
   let link1 = document.createElement("link");
   link1.setAttribute("rel", "stylesheet");
-  link1.setAttribute(
-    "href",
-    "https://dry-river-91831.herokuapp.com/assets/build/index.min.css"
-  );
+  
   let link2 = document.createElement("link");
   link2.setAttribute("rel", "stylesheet");
   link2.setAttribute(
@@ -47,6 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
   div.className = "row m-0 p-0 pr-3";
   let i = document.createElement("i");
   i.style.cursor = "pointer";
+  i.style.marginTop = "0.3rem";
   let im = document.createElement("img");
   im.setAttribute("src", "https://dry-river-91831.herokuapp.com/assets/images/posmin cloud.jpg")
   im.style.height = "50px";
